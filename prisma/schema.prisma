@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model compte{
+  idcompte String @id
+  Email String
+  username String
+  password String
+}
+model tourist {
+  Id String @id @default(cuid())
+  nom String
+  prenom String
+  phonenum String @unique
+  poste post[]
+  Circuit circuit[]
+  places visiter[]
+  followedby abonne[] @relation("Follower")
+  following abonne[]  @relation("Following")
+}
+model post{
+  Idposte String @id
+  postedat DateTime
+  poster tourist @relation(fields: [touristId],references: [Id])
+  touristId String
+}
+model circuit{
+  Idcircuit String @id
+  touristid String
+  proposer tourist @relation(fields: [touristid],references: [Id])
+}
+model lieu{
+  Idlieu String @id
+  accesstimebeg DateTime
+  accesstimend DateTime
+  tourist visiter[]
+}
+model abonne{
+abonee tourist @relation("Follower",fields: [aboneeid],references: [Id])
+aboneeid String
+abonnements tourist @relation("Following",fields: [abonnementsid],references: [Id])
+abonnementsid String 
+@@id([aboneeid,abonnementsid])
+}
+model visiter{
+visiteur tourist @relation(fields: [visiteurid],references: [Id])
+visiteurid String
+place lieu @relation(fields: [placeid],references: [Idlieu])
+placeid String
+@@id([visiteurid, placeid])
+}
