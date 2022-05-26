@@ -10,6 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tourist{
-  id String @id @default(cuid())
+model Tourist {
+  id          String @id @default(cuid())
+  email       String
+  username    String
+  password    String
+  firstName   String
+  lastName    String
+  phoneNumber String
+}
+
+model Lieu {
+  id            String          @id @default(cuid())
+  name          String
+  Access        DateTime
+  Documentation Documentation[]
+  qrCode        qrCode[]
+}
+
+model Documentation {
+  id     String @id @default(cuid())
+  lieu   Lieu   @relation(fields: [lieuId], references: [id])
+  lieuId String
+}
+
+model qrCode {
+  id     String @id @default(cuid())
+  lieu   Lieu   @relation(fields: [lieuId], references: [id])
+  lieuId String
 }
