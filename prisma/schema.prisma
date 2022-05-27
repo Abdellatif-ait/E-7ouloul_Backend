@@ -76,3 +76,4 @@ model visiter {
   placeid    String
 
   @@id([visiteurid, placeid])
+}
