@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model tourist {
@@ -48,14 +49,14 @@ model qrCode {
 }
 
 model post {
-  id   String   @id @default(cuid())
+  id        String   @id @default(cuid())
   postedat  DateTime
   poster    tourist  @relation(fields: [touristid], references: [id])
   touristid String
 }
 
 model circuit {
-  id String  @id @default(cuid())
+  id        String  @id @default(cuid())
   touristid String
   proposer  tourist @relation(fields: [touristid], references: [id])
 }
