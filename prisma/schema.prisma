@@ -9,51 +9,69 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model compte{
-  idcompte String @id
-  Email String
-  username String
-  password String
-}
 model tourist {
-  Id String @id @default(cuid())
-  nom String
-  prenom String
-  phonenum String @unique
-  poste post[]
-  Circuit circuit[]
-  places visiter[]
-  followedby abonne[] @relation("Follower")
-  following abonne[]  @relation("Following")
+  id         String    @id @default(cuid())
+  email      String
+  username   String
+  password   String
+  nom        String
+  prenom     String
+  phoneNum   String    @unique
+  poste      post[]
+  circuits   circuit[]
+  places     visiter[]
+  followedby abonne[]  @relation("Follower")
+  following  abonne[]  @relation("Following")
 }
-model post{
-  Idposte String @id
-  postedat DateTime
-  poster tourist @relation(fields: [touristId],references: [Id])
-  touristId String
-}
-model circuit{
-  Idcircuit String @id
-  touristid String
-  proposer tourist @relation(fields: [touristid],references: [Id])
-}
-model lieu{
-  Idlieu String @id
+
+model lieu {
+  id            String          @id @default(cuid())
+  name          String
   accesstimebeg DateTime
-  accesstimend DateTime
-  tourist visiter[]
+  accesstimend  DateTime
+  tourist       visiter[]
+  Documentation Documentation[]
+  qrCode        qrCode[]
 }
-model abonne{
-abonee tourist @relation("Follower",fields: [aboneeid],references: [Id])
-aboneeid String
-abonnements tourist @relation("Following",fields: [abonnementsid],references: [Id])
-abonnementsid String 
-@@id([aboneeid,abonnementsid])
+
+model Documentation {
+  id     String @id @default(cuid())
+  lieu   lieu   @relation(fields: [lieuid], references: [id])
+  lieuid String
 }
-model visiter{
-visiteur tourist @relation(fields: [visiteurid],references: [Id])
-visiteurid String
-place lieu @relation(fields: [placeid],references: [Idlieu])
-placeid String
-@@id([visiteurid, placeid])
+
+model qrCode {
+  id     String @id @default(cuid())
+  lieu   lieu   @relation(fields: [lieuid], references: [id])
+  lieuid String
 }
+
+model post {
+  id   String   @id @default(cuid())
+  postedat  DateTime
+  poster    tourist  @relation(fields: [touristid], references: [id])
+  touristid String
+}
+
+model circuit {
+  id String  @id @default(cuid())
+  touristid String
+  proposer  tourist @relation(fields: [touristid], references: [id])
+}
+
+model abonne {
+  abonee        tourist @relation("Follower", fields: [aboneeid], references: [id])
+  aboneeid      String
+  abonnements   tourist @relation("Following", fields: [abonnementsid], references: [id])
+  abonnementsid String
+
+  @@id([aboneeid, abonnementsid])
+}
+
+model visiter {
+  visiteur   tourist @relation(fields: [visiteurid], references: [id])
+  visiteurid String
+  place      lieu    @relation(fields: [placeid], references: [id])
+  placeid    String
+
+  @@id([visiteurid, placeid])
