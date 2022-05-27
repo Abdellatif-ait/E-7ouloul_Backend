@@ -1,9 +1,9 @@
-const express=require('express')
-const route= express.Router()
+const express = require('express')
+const route = express.Router()
 
-route.post('/login',loginHandler)
-route.post('/register',registerHandler)
-route.get('/',getHandler)
-route.get('/:id',getByIdHandler)
+route.post('/login', loginHandler)
+route.post('/register', registerHandler)
+route.get('/', getHandler)
+route.get('/:id', getByIdHandler)
 
-module.exports=route
+module.exports = route
