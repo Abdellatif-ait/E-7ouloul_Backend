@@ -10,32 +10,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tourist {
-  id          String @id @default(cuid())
-  email       String
-  username    String
-  password    String
-  firstName   String
-  lastName    String
-  phoneNumber String
+model tourist {
+  id         String    @id @default(cuid())
+  email      String
+  username   String
+  password   String
+  nom        String
+  prenom     String
+  phoneNum   String    @unique
+  poste      post[]
+  circuits   circuit[]
+  places     visiter[]
+  followedby abonne[]  @relation("Follower")
+  following  abonne[]  @relation("Following")
 }
 
-model Lieu {
+model lieu {
   id            String          @id @default(cuid())
   name          String
-  Access        DateTime
+  accesstimebeg DateTime
+  accesstimend  DateTime
+  tourist       visiter[]
   Documentation Documentation[]
   qrCode        qrCode[]
 }
 
 model Documentation {
   id     String @id @default(cuid())
-  lieu   Lieu   @relation(fields: [lieuId], references: [id])
-  lieuId String
+  lieu   lieu   @relation(fields: [lieuid], references: [id])
+  lieuid String
 }
 
 model qrCode {
   id     String @id @default(cuid())
-  lieu   Lieu   @relation(fields: [lieuId], references: [id])
-  lieuId String
+  lieu   lieu   @relation(fields: [lieuid], references: [id])
+  lieuid String
+}
+
+model post {
+  id   String   @id @default(cuid())
+  postedat  DateTime
+  poster    tourist  @relation(fields: [touristid], references: [id])
+  touristid String
+}
+
+model circuit {
+  id String  @id @default(cuid())
+  touristid String
+  proposer  tourist @relation(fields: [touristid], references: [id])
+}
+
+model abonne {
+  abonee        tourist @relation("Follower", fields: [aboneeid], references: [id])
+  aboneeid      String
+  abonnements   tourist @relation("Following", fields: [abonnementsid], references: [id])
+  abonnementsid String
+
+  @@id([aboneeid, abonnementsid])
+}
+
+model visiter {
+  visiteur   tourist @relation(fields: [visiteurid], references: [id])
+  visiteurid String
+  place      lieu    @relation(fields: [placeid], references: [id])
+  placeid    String
+
+  @@id([visiteurid, placeid])
 }
