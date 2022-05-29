@@ -40,7 +40,8 @@ CREATE TABLE "qrCode" (
 -- CreateTable
 CREATE TABLE "post" (
     "id" TEXT NOT NULL,
-    "postedat" TIMESTAMP(3) NOT NULL,
+    "postedat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "description" TEXT NOT NULL,
     "touristid" TEXT NOT NULL,
 
     CONSTRAINT "post_pkey" PRIMARY KEY ("id")
