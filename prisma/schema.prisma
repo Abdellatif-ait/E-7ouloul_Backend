@@ -55,7 +55,8 @@ model qrCode {
 
 model post {
   id        String   @id @default(cuid())
-  postedat  DateTime
+  postedat  DateTime @default(now())
+  description String
   poster    tourist  @relation(fields: [touristid], references: [id])
   touristid String
 }
