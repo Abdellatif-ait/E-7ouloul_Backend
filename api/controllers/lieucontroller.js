@@ -46,7 +46,7 @@ async function createplace (req,res){
 async function deleteplace (req,res){
     const id = req.params.id;
     try {
-            const place = await prisma.lieu.findfirst({
+            const place = await prisma.lieu.findUnique({
                 where: {
                     id:id
                 }
