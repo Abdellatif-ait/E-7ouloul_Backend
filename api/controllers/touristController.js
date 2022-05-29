@@ -12,13 +12,12 @@ async function getByIdHandler(req, res) {
     try {
         const tourist = await prisma.tourist.findUnique({
             where: {
-                id: {
-                    equals: id
-                }
+                id:id
             }
         })
         res.status(200).json({ status: 200, data: tourist })
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
@@ -27,9 +26,7 @@ async function registerHandler(req, res) {
     try {
         const account = await prisma.tourist.findFirst({
             where: {
-                email: {
-                    equals: email
-                }
+                email: email
             }
         })
         if (account) {
@@ -54,7 +51,7 @@ async function registerHandler(req, res) {
 async function loginHandler(req, res) {
     const { email, password } = req.body
     try {
-        const account = await prisma.tourist.findUnique({
+        const account = await prisma.tourist.findFirst({
             where: {
                 email: {
                     equals: email
@@ -62,9 +59,10 @@ async function loginHandler(req, res) {
             }
         })
         if (account && (await bcrypt.compare(password, account.password))) {
-            res.cookie("token", generateToken(account.id), { httpOnly: true })
+            res.status(200).cookie("token", generateToken(account.id), { httpOnly: true }).json({status:200,message:"welcome back!"})
         }
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
