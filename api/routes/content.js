@@ -7,10 +7,10 @@ route.get('/',getcontent);
 
 route.get('/:idcontent',getcontentbyId);
 
-route.post('/',addcontent);
+route.post('/', /*isAuthRes,*/ addcontent);
 
-route.delete('/:idcontent',deletecontent);
+route.delete('/:idcontent', /*isAuthRes,*/ deletecontent);
 
-route.patch('/:idcontent',updatecontent);
+route.patch('/:idcontent', /*isAuthRes,*/ updatecontent);
 
 module.exports = route

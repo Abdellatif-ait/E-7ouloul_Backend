@@ -26,7 +26,8 @@ async function registerHandler(req, res) {
     try {
         const account = await prisma.tourist.findFirst({
             where: {
-                email: email
+                email: email,
+                username:username
             }
         })
         if (account) {
