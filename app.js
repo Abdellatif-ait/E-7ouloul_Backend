@@ -3,6 +3,7 @@ const createError = require('http-errors');
 const morgan = require('morgan');
 require('dotenv').config();
 const touristRoute=require('./api/routes/tourist')
+const lieuroute = require('./api/routes/lieu')
 
 const app = express();
 app.use(express.json());

@@ -24,7 +24,13 @@ model tourist {
   followedby abonne[]  @relation("Follower")
   following  abonne[]  @relation("Following")
 }
-
+model responsable {
+   id         String    @id @default(cuid())
+  email      String
+  username   String
+  password   String
+  contents contenue[] 
+}
 model lieu {
   id            String          @id @default(cuid())
   name          String
@@ -69,7 +75,13 @@ model abonne {
 
   @@id([aboneeid, abonnementsid])
 }
-
+model contenue {
+  idcontent  String @id @default(cuid())
+  contentURL String
+  addedat  DateTime
+  contentcreator responsable @relation(fields: [resid],references: [id])
+  resid String
+}
 model visiter {
   visiteur   tourist @relation(fields: [visiteurid], references: [id])
   visiteurid String
