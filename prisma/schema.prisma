@@ -30,6 +30,14 @@ model responsable {
   username   String
   password   String
   contents contenue[] 
+  annonces annonce[]
+}
+model annonce {
+  idannonce String @id @default(cuid())
+  contenue String
+  Addedat DateTime
+  annoncemaker responsable @relation(fields: [idres],references: [id])
+  idres String 
 }
 model lieu {
   id            String          @id @default(cuid())

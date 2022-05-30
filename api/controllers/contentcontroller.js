@@ -87,3 +87,5 @@ async function updatecontent (req,res){
     }
 
 }
+
+module.exports = { getcontent, getcontentbyId, addcontent, deletecontent, updatecontent }

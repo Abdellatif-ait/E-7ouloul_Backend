@@ -85,3 +85,5 @@ async function updateplace (req,res){
         return res.status(500).json({ status: 500, message: "Something went wrong try later" })
     }
 }
+
+module.exports ={getplace, getplacebyId, createplace, deleteplace, updateplace}
