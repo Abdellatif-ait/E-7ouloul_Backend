@@ -44,18 +44,20 @@ model annonce {
 }
 
 model lieu {
-  id             String           @id @default(cuid())
-  name           String
-  accesstimebeg  DateTime
-  accesstimend   DateTime
-  tourist        visiter[]
-  Documentation  Documentation[]
-  qrCode         qrCode[]
-  circuit circuitContent[]
+  id            String           @id @default(cuid())
+  name          String
+  accesstimebeg DateTime
+  accesstimend  DateTime
+  tourist       visiter[]
+  Documentation Documentation[]
+  qrCode        qrCode[]
+  circuit       circuitContent[]
+  content       contenue[]
 }
 
 model Documentation {
   id     String @id @default(cuid())
+  docURL String
   lieu   lieu   @relation(fields: [lieuid], references: [id])
   lieuid String
 }
@@ -76,10 +78,10 @@ model post {
 }
 
 model circuit {
-  id             String           @id @default(cuid())
-  touristid      String
-  proposer       tourist          @relation(fields: [touristid], references: [id])
-  content circuitContent[]
+  id        String           @id @default(cuid())
+  touristid String
+  proposer  tourist          @relation(fields: [touristid], references: [id])
+  content   circuitContent[]
 }
 
 model abonne {
@@ -97,6 +99,8 @@ model contenue {
   addedat        DateTime
   contentcreator responsable @relation(fields: [resid], references: [id])
   resid          String
+  place          lieu        @relation(fields: [idplace], references: [id])
+  idplace        String
 }
 
 model visiter {
@@ -113,6 +117,7 @@ model circuitContent {
   lieu      lieu    @relation(fields: [lieuId], references: [id])
   circuitId String
   lieuId    String
-  position Int
-   @@id([circuitId, lieuId])
+  position  Int
+
+  @@id([circuitId, lieuId])
 }
