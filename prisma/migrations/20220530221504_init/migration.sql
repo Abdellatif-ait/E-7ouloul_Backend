@@ -12,6 +12,26 @@ CREATE TABLE "tourist" (
 );
 
 -- CreateTable
+CREATE TABLE "responsable" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "responsable_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "annonce" (
+    "idannonce" TEXT NOT NULL,
+    "contenue" TEXT NOT NULL,
+    "Addedat" TIMESTAMP(3) NOT NULL,
+    "idres" TEXT NOT NULL,
+
+    CONSTRAINT "annonce_pkey" PRIMARY KEY ("idannonce")
+);
+
+-- CreateTable
 CREATE TABLE "lieu" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -42,6 +62,7 @@ CREATE TABLE "post" (
     "id" TEXT NOT NULL,
     "postedat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" TEXT NOT NULL,
+    "mediaURL" TEXT NOT NULL DEFAULT E'',
     "touristid" TEXT NOT NULL,
 
     CONSTRAINT "post_pkey" PRIMARY KEY ("id")
@@ -64,6 +85,16 @@ CREATE TABLE "abonne" (
 );
 
 -- CreateTable
+CREATE TABLE "contenue" (
+    "idcontent" TEXT NOT NULL,
+    "contentURL" TEXT NOT NULL,
+    "addedat" TIMESTAMP(3) NOT NULL,
+    "resid" TEXT NOT NULL,
+
+    CONSTRAINT "contenue_pkey" PRIMARY KEY ("idcontent")
+);
+
+-- CreateTable
 CREATE TABLE "visiter" (
     "visiteurid" TEXT NOT NULL,
     "placeid" TEXT NOT NULL,
@@ -71,8 +102,20 @@ CREATE TABLE "visiter" (
     CONSTRAINT "visiter_pkey" PRIMARY KEY ("visiteurid","placeid")
 );
 
+-- CreateTable
+CREATE TABLE "circuitContent" (
+    "circuitId" TEXT NOT NULL,
+    "lieuId" TEXT NOT NULL,
+    "position" INTEGER NOT NULL,
+
+    CONSTRAINT "circuitContent_pkey" PRIMARY KEY ("circuitId","lieuId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "tourist_phoneNum_key" ON "tourist"("phoneNum");
+
+-- AddForeignKey
+ALTER TABLE "annonce" ADD CONSTRAINT "annonce_idres_fkey" FOREIGN KEY ("idres") REFERENCES "responsable"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Documentation" ADD CONSTRAINT "Documentation_lieuid_fkey" FOREIGN KEY ("lieuid") REFERENCES "lieu"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -93,7 +136,16 @@ ALTER TABLE "abonne" ADD CONSTRAINT "abonne_aboneeid_fkey" FOREIGN KEY ("aboneei
 ALTER TABLE "abonne" ADD CONSTRAINT "abonne_abonnementsid_fkey" FOREIGN KEY ("abonnementsid") REFERENCES "tourist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "contenue" ADD CONSTRAINT "contenue_resid_fkey" FOREIGN KEY ("resid") REFERENCES "responsable"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "visiter" ADD CONSTRAINT "visiter_visiteurid_fkey" FOREIGN KEY ("visiteurid") REFERENCES "tourist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "visiter" ADD CONSTRAINT "visiter_placeid_fkey" FOREIGN KEY ("placeid") REFERENCES "lieu"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "circuitContent" ADD CONSTRAINT "circuitContent_lieuId_fkey" FOREIGN KEY ("lieuId") REFERENCES "lieu"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "circuitContent" ADD CONSTRAINT "circuitContent_circuitId_fkey" FOREIGN KEY ("circuitId") REFERENCES "circuit"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -10,6 +10,7 @@ datasource db {
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
+
 model tourist {
   id         String    @id @default(cuid())
   email      String
@@ -24,31 +25,34 @@ model tourist {
   followedby abonne[]  @relation("Follower")
   following  abonne[]  @relation("Following")
 }
+
 model responsable {
-   id         String    @id @default(cuid())
-  email      String
-  username   String
-  password   String
-  contents contenue[] 
+  id       String     @id @default(cuid())
+  email    String
+  username String
+  password String
+  contents contenue[]
   annonces annonce[]
 }
+
 model annonce {
-  idannonce String @id @default(cuid())
-  contenue String
-  Addedat DateTime
-  annoncemaker responsable @relation(fields: [idres],references: [id])
-  idres String 
+  idannonce    String      @id @default(cuid())
+  contenue     String
+  Addedat      DateTime
+  annoncemaker responsable @relation(fields: [idres], references: [id])
+  idres        String
 }
+
 model lieu {
-  id            String          @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String
   accesstimebeg DateTime
   accesstimend  DateTime
   tourist       visiter[]
-  circuit  participer[]
   Documentation Documentation[]
   qrCode        qrCode[]
-  content contenue[]
+  circuit       circuitContent[]
+  content       contenue[]
 }
 
 model Documentation {
@@ -65,18 +69,19 @@ model qrCode {
 }
 
 model post {
-  id        String   @id @default(cuid())
-  postedat  DateTime @default(now())
+  id          String   @id @default(cuid())
+  postedat    DateTime @default(now())
   description String
-  poster    tourist  @relation(fields: [touristid], references: [id])
-  touristid String
+  mediaURL    String   @default("")
+  poster      tourist  @relation(fields: [touristid], references: [id])
+  touristid   String
 }
 
 model circuit {
-  id        String  @id @default(cuid())
+  id        String           @id @default(cuid())
   touristid String
-  proposer  tourist @relation(fields: [touristid], references: [id])
-  place participer[]
+  proposer  tourist          @relation(fields: [touristid], references: [id])
+  content   circuitContent[]
 }
 
 model abonne {
@@ -87,15 +92,17 @@ model abonne {
 
   @@id([aboneeid, abonnementsid])
 }
+
 model contenue {
-  idcontent  String @id @default(cuid())
-  contentURL String
-  addedat  DateTime
-  contentcreator responsable @relation(fields: [resid],references: [id])
-  resid String
-  place lieu @relation(fields: [idplace],references: [id])
-  idplace String
+  idcontent      String      @id @default(cuid())
+  contentURL     String
+  addedat        DateTime
+  contentcreator responsable @relation(fields: [resid], references: [id])
+  resid          String
+  place          lieu        @relation(fields: [idplace], references: [id])
+  idplace        String
 }
+
 model visiter {
   visiteur   tourist @relation(fields: [visiteurid], references: [id])
   visiteurid String
@@ -104,11 +111,13 @@ model visiter {
 
   @@id([visiteurid, placeid])
 }
-model participer{
-  place lieu @relation(fields: [placeid],references: [id])
-  placeid String
-  circ circuit @relation(fields: [circuitid],references: [id])
-  circuitid String
 
-  @@id([placeid, circuitid])
+model circuitContent {
+  circuit   circuit @relation(fields: [circuitId], references: [id])
+  lieu      lieu    @relation(fields: [lieuId], references: [id])
+  circuitId String
+  lieuId    String
+  position  Int
+
+  @@id([circuitId, lieuId])
 }
