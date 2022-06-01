@@ -45,7 +45,7 @@ async function addannonce(req, res) {
     }
 }
 
-async function deleteannoce(req, res) {
+async function deleteannonce(req, res) {
     const id = req.params.id
     try {
         const annonce = await prisma.annonce.findunique({
@@ -88,4 +88,4 @@ async function updateannonce(req, res) {
 
 }
 
-module.exports = { getannonce, getannoncebyId, addannonce, deleteannoce, updateannonce }
+module.exports = { getannonce, getannoncebyId, addannonce, deleteannonce, updateannonce }
