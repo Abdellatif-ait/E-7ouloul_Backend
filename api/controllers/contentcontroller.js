@@ -1,64 +1,66 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-async function getcontent (req,res){
-    const content = await prisma.contenue.findmany();
-    res.status(200).json({status:200 , data : content})
+async function getcontent(req, res) {
+    const content = await prisma.contenue.findMany();
+    res.status(200).json({ status: 200, data: content })
 }
 
-async function getcontentbyId (req,res){
-    const {contid} = req.params.id
+async function getcontentbyId(req, res) {
+    const { id } = req.params.id
     try {
-        const content = await prisma.contenue.findunique({
-            where:{
-                idcontent:contid
+        const content = await prisma.contenue.findUnique({
+            where: {
+                idplace:id
             }
         })
-        res.status(200).json({status:200, data : content})
+        res.status(200).json({ status: 200, data: content })
     } catch (error) {
-        res.status(500).json({status:500, message:"something went wrong try later"})
+        res.status(500).json({ status: 500, message: "something went wrong try later" })
     }
 }
 
-async function addcontent (req,res){
-    const {url , date} = req.body 
+async function addcontent(req, res) {
+    const { id,url, date , idplace } = req.body
     try {
-        const content = await prisma.contenue.findfirst({
-            where:{
-                contentURL:url,
-                addedat:date
+        const content = await prisma.contenue.findFirst({
+            where: {
+                contentURL: url,
+                addedat: date,                
             }
         })
-        if(content){
-            res.status(400).json({status:400,message:"Content already exists !!"})
-        }else{
+        if (content) {
+            res.status(400).json({ status: 400, message: "Content already exists !!" })
+        } else {
             const contenue = await prisma.contenue.create({
-                data:{
-                    contentURL:url,
+                data: {
+                    resid:id,
+                    idplace:idplace,
+                    contentURL: url,
                     addedat: date
                 }
             })
-            res.status(201).json({status:201, message:"content added succesfully", data:contenue})
+            res.status(201).json({ status: 201, message: "content added succesfully", data: contenue })
         }
     } catch (error) {
         res.status(500).json({ status: 500, message: "something went wrong! try later" })
     }
 }
 
-async function deletecontent (req,res){
+async function deletecontent(req, res) {
     const id = req.params.id
     try {
-        const content = await prisma.contenue.findunique({
-            where:{
-                idcontent:id
+        const content = await prisma.contenue.findUnique({
+            where: {
+                idcontent: id
             }
         })
-        if (!content){
+        if (!content) {
             res.status(500).json({ status: 500, message: "contenue n'existe pas !!" })
-        }else{
+        } else {
             const contenue = await prisma.contenue.delete({
-                where:{
-                    idcontent:id
+                where: {
+                    idcontent: id
                 }
             })
             res.status(201).json({ status: 201, message: "Content deleted succesfully" })
@@ -68,17 +70,17 @@ async function deletecontent (req,res){
     }
 }
 
-async function updatecontent (req,res){
+async function updatecontent(req, res) {
     const id = req.params.id
-    const {url,date}=req.body
+    const { url, date } = req.body
     try {
         const content = await prisma.contenue.update({
-            where:{
-                idcontent:id
+            where: {
+                idcontent: id
             },
-            data:{
-                contentURL:url,
-                addedat:date
+            data: {
+                contentURL: url,
+                addedat: date
             }
         })
         res.status(201).json({ status: 201, message: "Content updated succesfully" })

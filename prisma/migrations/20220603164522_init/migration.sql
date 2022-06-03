@@ -44,6 +44,7 @@ CREATE TABLE "lieu" (
 -- CreateTable
 CREATE TABLE "Documentation" (
     "id" TEXT NOT NULL,
+    "docURL" TEXT NOT NULL,
     "lieuid" TEXT NOT NULL,
 
     CONSTRAINT "Documentation_pkey" PRIMARY KEY ("id")
@@ -90,6 +91,7 @@ CREATE TABLE "contenue" (
     "contentURL" TEXT NOT NULL,
     "addedat" TIMESTAMP(3) NOT NULL,
     "resid" TEXT NOT NULL,
+    "idplace" TEXT NOT NULL,
 
     CONSTRAINT "contenue_pkey" PRIMARY KEY ("idcontent")
 );
@@ -137,6 +139,9 @@ ALTER TABLE "abonne" ADD CONSTRAINT "abonne_abonnementsid_fkey" FOREIGN KEY ("ab
 
 -- AddForeignKey
 ALTER TABLE "contenue" ADD CONSTRAINT "contenue_resid_fkey" FOREIGN KEY ("resid") REFERENCES "responsable"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "contenue" ADD CONSTRAINT "contenue_idplace_fkey" FOREIGN KEY ("idplace") REFERENCES "lieu"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "visiter" ADD CONSTRAINT "visiter_visiteurid_fkey" FOREIGN KEY ("visiteurid") REFERENCES "tourist"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

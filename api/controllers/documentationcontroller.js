@@ -8,9 +8,9 @@ async function getdocument(req, res) {
 async function getdocumentbyId(req, res) {
     const id = req.params.id;
     try {
-        const doc = await prisma.Documentation.findUnique({
+        const doc = await prisma.Documentation.findMany({
             where: {
-                id: id
+                lieuid:id
             }
         })
         res.status(200).json({ status: 200, data: doc })
@@ -19,11 +19,12 @@ async function getdocumentbyId(req, res) {
     }
 }
 async function adddocument(req, res) {
-    const { url } = req.body
+    const { url,lieuid } = req.body
     try {
-        const document = await prisma.Documentation.findfirst({
+        const document = await prisma.Documentation.findFirst({
             where: {
-                docURL:url
+                docURL:url,
+                lieuid:lieuid
             }
         })
         if (document) {
@@ -31,7 +32,8 @@ async function adddocument(req, res) {
         }
         const doc = await prisma.Documentation.create({
             data: {
-                docURL:url
+                docURL:url,
+                lieuid:lieuid
             }
         })
         res.status(201).json({ status: 201, message: "Documentation added succesfully", data: doc })

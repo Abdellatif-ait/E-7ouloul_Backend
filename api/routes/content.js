@@ -9,8 +9,8 @@ route.get('/:idcontent',getcontentbyId);
 
 route.post('/', /*isAuthRes,*/ addcontent);
 
-route.delete('/:idcontent', /*isAuthRes,*/ deletecontent);
+route.delete('/:id', /*isAuthRes,*/ deletecontent);
 
-route.patch('/:idcontent', /*isAuthRes,*/ updatecontent);
+route.patch('/:id', /*isAuthRes,*/ updatecontent);
 
 module.exports = route
