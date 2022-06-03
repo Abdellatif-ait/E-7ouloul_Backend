@@ -5,12 +5,12 @@ const { getannonce, getannoncebyId, addannonce, deleteannonce, updateannonce } =
 
 route.get('/', getannonce);
 
-route.get('/:idannonce', getannoncebyId);
+route.get('/:id', getannoncebyId);
 
 route.post('/',  /*isAuthRes,*/ addannonce);
 
-route.delete('/:idannonce',  /*isAuthRes,*/ deleteannonce);
+route.delete('/:id',  /*isAuthRes,*/ deleteannonce);
 
-route.patch('/:idannonce', /*isAuthRes,*/ updateannonce);
+route.patch('/:id', /*isAuthRes,*/ updateannonce);
 
 module.exports = route

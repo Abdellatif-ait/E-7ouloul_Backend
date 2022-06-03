@@ -82,12 +82,12 @@ async function followHandler(req, res) {
 }
 async function deleteFollowHandler(req, res) {
     //const {id}=req.tourist
-    const { idAbonné, idAbonnement } = req.body
+    const { followerid, followingid } = req.body
     try {
         const follow = await prisma.abonne.delete({
             where: {
-                aboneeid: idAbonné,
-                abonnementsid: idAbonnement
+                aboneeid: followingid,
+                abonnementsid: followerid
             }
         })
         res.status(200).json({ status: 200, data: follow, message: "deleted successfully" })

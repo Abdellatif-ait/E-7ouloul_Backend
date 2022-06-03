@@ -5,7 +5,7 @@ const {getcontent, getcontentbyId, addcontent, deletecontent, updatecontent}=req
 
 route.get('/',getcontent);
 
-route.get('/:idcontent',getcontentbyId);
+route.get('/:id',getcontentbyId);
 
 route.post('/', /*isAuthRes,*/ addcontent);
 
