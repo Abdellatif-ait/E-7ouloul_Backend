@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 async function getplace (req, res){
     const place = await prisma.lieu.findMany();
-    res.status(200).json({status : 200, data: lieu})
+    res.status(200).json({status : 200, data: place})
 }
 async function getplacebyId (req,res){
     const id = req.params.id;
@@ -21,11 +21,11 @@ async function getplacebyId (req,res){
 async function createplace (req,res){
     const {name, timebeg, timeend } = req.body
     try {
-        const place = await prisma.lieu.findfirst({
+        const place = await prisma.lieu.findFirst({
             where:{
                 name:name,
                 accesstimebeg:timebeg,
-                accesstimeend:timeend
+                accesstimend:timeend
             }
         })
         if (place){
@@ -35,11 +35,12 @@ async function createplace (req,res){
             data:{
                 name:name,
                 accesstimebeg:timebeg,
-                accesstimeend:timeend
+                accesstimend:timeend
             }
         })
         res.status(201).json({status : 201,message:"Place added succesfully",data:lieu})
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try later" })
     }
 }

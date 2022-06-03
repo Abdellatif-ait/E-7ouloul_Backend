@@ -39,9 +39,6 @@ async function registerHandler(req, res) {
                 email: email,
                 username: username,
                 password: newPassword,
-                nom: nom,
-                prenom: prenom,
-                phoneNum: phoneNum
             }
         })
         res.status(201).json({ status: 201, data: responsable, message: "account created successfuly" })

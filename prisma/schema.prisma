@@ -79,8 +79,8 @@ model post {
 
 model circuit {
   id        String           @id @default(cuid())
-  touristid String
   proposer  tourist          @relation(fields: [touristid], references: [id])
+  touristid String
   content   circuitContent[]
 }
 
