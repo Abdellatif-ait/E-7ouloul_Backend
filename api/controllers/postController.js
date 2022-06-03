@@ -2,8 +2,13 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function getAllHandler(req, res) {
-    const posts = await prisma.post.findMany()
-    res.status(200).json({ status: 200, data: posts, message: "here's what we found" })
+    try {
+        const posts = await prisma.post.findMany()
+        res.status(200).json({ status: 200, data: posts, message: "here's what we found" })
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "something went wrong! try lated" })
+    }
+
 }
 async function getUserHandler(req, res) {
     //const {id}=req.tourist;

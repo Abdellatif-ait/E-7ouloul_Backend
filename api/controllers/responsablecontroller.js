@@ -4,8 +4,12 @@ const generateToken = require('../utils/generateToken')
 const prisma = new PrismaClient()
 
 async function getHandler(_req, res) {
-    const responsable = await prisma.responsable.findMany();
-    res.status(200).json({ status: 200, data: tourist });
+    try {
+        const responsable = await prisma.responsable.findMany();
+        res.status(200).json({ status: 200, data: tourist });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "something went wrong! try lated" })
+    }
 }
 async function getByIdHandler(req, res) {
     const id = req.params.id;

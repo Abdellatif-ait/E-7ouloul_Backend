@@ -2,8 +2,13 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function getplace (req, res){
-    const place = await prisma.lieu.findMany();
-    res.status(200).json({status : 200, data: place})
+    try {
+        const place = await prisma.lieu.findMany();
+        res.status(200).json({status : 200, data: place})
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "something went wrong! try later" })
+    }
+
 }
 async function getplacebyId (req,res){
     const id = req.params.id;

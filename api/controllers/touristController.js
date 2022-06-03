@@ -4,8 +4,12 @@ const bcrypt = require('bcrypt')
 const generateToken = require('../utils/generateToken')
 
 async function getHandler(_req, res) {
-    const tourist = await prisma.tourist.findMany();
-    res.status(200).json({ status: 200, data: tourist });
+    try {
+        const tourist = await prisma.tourist.findMany();
+        res.status(200).json({ status: 200, data: tourist });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "something went wrong! try later" })
+    }
 }
 async function getByIdHandler(req, res) {
     const id = req.params.id;

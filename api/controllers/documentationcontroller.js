@@ -2,8 +2,12 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function getdocument(req, res) {
-    const doc = await prisma.Documentation.findMany();
-    res.status(200).json({ status: 200, data: doc })
+    try {
+        const doc = await prisma.Documentation.findMany();
+        res.status(200).json({ status: 200, data: doc })
+    } catch (error) {
+        res.status(500).json({ status: 500, message: "something went wrong! try later" })
+    }
 }
 async function getdocumentbyId(req, res) {
     const id = req.params.id;
