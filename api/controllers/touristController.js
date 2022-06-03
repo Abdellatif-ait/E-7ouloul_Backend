@@ -17,7 +17,6 @@ async function getByIdHandler(req, res) {
         })
         res.status(200).json({ status: 200, data: tourist })
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
@@ -27,7 +26,7 @@ async function registerHandler(req, res) {
         const account = await prisma.tourist.findFirst({
             where: {
                 email: email,
-                username:username
+                username: username
             }
         })
         if (account) {
@@ -63,7 +62,6 @@ async function loginHandler(req, res) {
             res.status(200).cookie("token", generateToken(account.id), { httpOnly: true }).json({ status: 200, message: "welcome back!" })
         }
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
@@ -79,20 +77,20 @@ async function followHandler(req, res) {
         })
         res.status(201).json({ status: 201, data: followers, message: "followed successefuly" })
     } catch (error) {
-        console.log(error.message)
-
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
-async function deleteFollowHandler(req,res){
+async function deleteFollowHandler(req, res) {
     //const {id}=req.tourist
-    const {idAbonné,idAbonnement}=req.body
+    const { idAbonné, idAbonnement } = req.body
     try {
-        const follow=await prisma.abonne.delete({where:{
-            aboneeid:idAbonné,
-            abonnementsid:idAbonnement
-        }})
-        res.status(200).json({status:200,data:follow,message:"deleted successfully"})
+        const follow = await prisma.abonne.delete({
+            where: {
+                aboneeid: idAbonné,
+                abonnementsid: idAbonnement
+            }
+        })
+        res.status(200).json({ status: 200, data: follow, message: "deleted successfully" })
     } catch (error) {
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
