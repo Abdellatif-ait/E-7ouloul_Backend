@@ -27,7 +27,6 @@ async function postHandler(req,res){
             }
         })
         for(let x of content){
-            console.log(x)
             await prisma.circuitContent.create({
                 data:{
                     circuitId:circuit.id,
@@ -38,7 +37,6 @@ async function postHandler(req,res){
         }
         res.status(201).json({status:201,data:circuit,message:"added successfully"})
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try later" })
     }
 }

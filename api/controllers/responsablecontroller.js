@@ -17,7 +17,6 @@ async function getByIdHandler(req, res) {
         })
         res.status(200).json({ status: 200, data: responsable })
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
@@ -27,7 +26,7 @@ async function registerHandler(req, res) {
         const account = await prisma.responsable.findFirst({
             where: {
                 email: email,
-                username:username
+                username: username
             }
         })
         if (account) {
@@ -58,7 +57,6 @@ async function loginHandler(req, res) {
             res.status(200).cookie("token", generateToken(account.id), { httpOnly: true }).json({ status: 200, message: "welcome back!" })
         }
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
