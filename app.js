@@ -12,6 +12,7 @@ const documentationRoute = require('./api/routes/documentation')
 const visiteRoute = require('./api/routes/visite')
 const postRoute = require('./api/routes/post')
 const responsableRoute = require('./api/routes/responsable')
+const eventRoute=require('./api/routes/event')
 
 /* MIDDLEWARES */
 const app = express();
@@ -36,6 +37,7 @@ app.use('/content', contentRoute)
 app.use('/post', postRoute)
 app.use('/annonce', annonceRoute)
 app.use('/documentation', documentationRoute)
+app.use('/event',eventRoute)
 
 app.use((req, res, next) => {
   next(createError.NotFound());

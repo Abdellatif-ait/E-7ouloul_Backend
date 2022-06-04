@@ -53,6 +53,7 @@ model lieu {
   qrCode        qrCode[]
   circuit       circuitContent[]
   content       contenue[]
+  event         event[]
 }
 
 model Documentation {
@@ -120,4 +121,12 @@ model circuitContent {
   position  Int
 
   @@id([circuitId, lieuId])
+}
+
+model event {
+  id     String   @id @default(cuid())
+  title  String
+  date   DateTime
+  lieu   lieu     @relation(fields: [lieuId], references: [id])
+  lieuId String
 }
