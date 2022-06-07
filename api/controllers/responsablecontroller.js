@@ -25,7 +25,7 @@ async function getByIdHandler(req, res) {
     }
 }
 async function registerHandler(req, res) {
-    const { email, password, username } = req.body
+    const { email, password, username,lieuId } = req.body
     try {
         const account = await prisma.responsable.findFirst({
             where: {
@@ -42,6 +42,7 @@ async function registerHandler(req, res) {
                 email: email,
                 username: username,
                 password: newPassword,
+                lieuId:lieuId
             }
         })
         res.status(201).json({ status: 201, data: responsable, message: "account created successfuly" })
