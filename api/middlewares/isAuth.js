@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const jwt = require('jsonwebtoken')
 const prisma = new PrismaClient()
 const isAuth = async (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.headers.token;
     try {
         const tourist = jwt.verify(token, process.env.JWT_SECRET)
         req.tourist = tourist
