@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 async function getHandler(_req, res) {
     try {
         const responsable = await prisma.responsable.findMany();
-        res.status(200).json({ status: 200, data: tourist });
+        res.status(200).json({ status: 200, data: responsable });
     } catch (error) {
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
@@ -25,7 +25,7 @@ async function getByIdHandler(req, res) {
     }
 }
 async function registerHandler(req, res) {
-    const { email, password, username } = req.body
+    const { email, password, username,lieuId } = req.body
     try {
         const account = await prisma.responsable.findFirst({
             where: {
@@ -42,6 +42,7 @@ async function registerHandler(req, res) {
                 email: email,
                 username: username,
                 password: newPassword,
+                lieuId:lieuId
             }
         })
         res.status(201).json({ status: 201, data: responsable, message: "account created successfuly" })
