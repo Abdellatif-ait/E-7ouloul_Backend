@@ -2,6 +2,7 @@ const express = require('express');
 const createError = require('http-errors');
 const morgan = require('morgan');
 const cors = require('cors')
+const cookieParser= require('cookie-parser')
 require('dotenv').config();
 const touristRoute = require('./api/routes/tourist')
 const annonceRoute = require('./api/routes/annonce')
@@ -17,6 +18,7 @@ const eventRoute=require('./api/routes/event')
 /* MIDDLEWARES */
 const app = express();
 app.use(express.json());
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(cors({
