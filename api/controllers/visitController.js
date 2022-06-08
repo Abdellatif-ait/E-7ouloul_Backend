@@ -24,6 +24,22 @@ async function getHandler(req, res) {
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }
+async function getVisistsHandler(req, res) {
+    const id = req.params.id;
+    try {
+        const visists = await prisma.visiter.findMany({
+            where: {
+                placeid: id
+            }
+        })
+        console.log(visists)
+        const nb = visists.length;
+        res.status(200).json({ status: 200, data: nb, message: "here's what we found" })
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ status: 500, message: "something went wrong! try later" })
+    }
+}
 async function postHandler(req, res) {
     //const {id}=req.tourist
     const { id, idLieu } = req.body
@@ -57,4 +73,4 @@ async function deleteHandler(req, res) {
     }
 }
 
-module.exports = { getHandler, postHandler, deleteHandler }
+module.exports = { getHandler, getVisistsHandler, postHandler, deleteHandler }

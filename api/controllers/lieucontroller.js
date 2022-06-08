@@ -13,13 +13,14 @@ async function getplace (req, res){
 async function getplacebyId (req,res){
     const id = req.params.id;
     try {
-        const place = await prisma.lieu.findUnique({
+        const place = await prisma.lieu.findFirst({
             where:{
                 id:id
             }
         })
-        res.status(200).json({status : 200, data : lieu})
+        res.status(200).json({status : 200, data : place})
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({status : 500, message :"Lieu n'existe pas !!" })
     }
 }
