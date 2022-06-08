@@ -14,7 +14,7 @@ async function getHandler(_req, res) {
 async function getByIdHandler(req, res) {
     const id = req.params.id;
     try {
-        const responsable = await prisma.responsable.findUnique({
+        const {password,...responsable} = await prisma.responsable.findUnique({
             where: {
                 id: id
             }
@@ -53,15 +53,18 @@ async function registerHandler(req, res) {
 async function loginHandler(req, res) {
     const { email, password } = req.body
     try {
-        const account = await prisma.responsable.findFirst({
+        const responsable = await prisma.responsable.findFirst({
             where: {
                 email: email
             }
         })
-        if (account && (await bcrypt.compare(password, account.password))) {
-            res.status(200).cookie("token", generateToken(account.id), { httpOnly: true }).json({ status: 200, message: "welcome back!" })
+        if (responsable && (await bcrypt.compare(password, responsable.password))) {
+            const {password,...account}=responsable
+            return res.status(200).json({ status: 200, data:account, message: "welcome back!" })
         }
+        return res.status(400).json({ status: 400, message: "invalid input" })
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ status: 500, message: "something went wrong! try lated" })
     }
 }

@@ -13,9 +13,9 @@ async function getannonce(req, res) {
 async function getannoncebyId(req, res) {
     const adid  = req.params.id
     try {
-        const annonce = await prisma.annonce.findUnique({
+        const annonce = await prisma.annonce.findMany({
             where: {
-                idannonce: adid
+                idres: adid
             }
         })
         res.status(200).json({ status: 200, data: annonce })
@@ -46,6 +46,7 @@ async function addannonce(req, res) {
             res.status(201).json({ status: 201, message: "annonce added succesfully", data: ad })
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ status: 500, message: "something went wrong! try later" })
     }
 }
